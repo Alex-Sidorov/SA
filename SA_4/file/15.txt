@@ -1,0 +1,23 @@
+State Machines
+The generic state machine is one of the first basic elements of design. Generally, a state
+machine is an entity that is capable of storing information and making decisions based on
+that information. An object is often identified as a state machine because its attributes
+store information and its operations respond to input using the stored information.
+The point is to establish that a software system can contain entities that store information
+and are capable of reacting in an indirect fashion to the system around them.When entities
+behave in this way, they are called state machines or, more simply, objects.
+Functions
+Another element of design is the function—or operation. In contrast to state machines,
+operations might not store information. Instead, they might immediately process the
+information and return a result. Such entities are not state machines; they are usually
+identified as functions. Functions can be collected together into libraries. The libraries can
+provide a set of services. An example is the C math library.
+Relationships
+Whenever one element (whether it’s an operation, a class, a state machine, or a component)
+communicates with another, a relationship is established between the two elements.
+A relationship can be considered asynchronous when one entity communicates with
+another without needing to receive information in return. A relationship can be characterized
+as synchronous when it expects a response or an acknowledgement. The outcome
+of the relationship between two elements is that messages that the relationships transfer
+allow the states of elements to change. An element’s state is characterized by the information
+it contains. The message might cause a state change.

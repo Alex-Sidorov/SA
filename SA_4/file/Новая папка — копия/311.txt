@@ -1,0 +1,27 @@
+C3: Ensuring that secret data cannot be reached. Different
+projects use different techniques to mitigate the problem
+of Spectre. WebKit employs two such techniques to limit the
+access to secret data [69]. WebKit first replaces array bound
+checks with index masking. By applying a bit mask,WebKit
+cannot ensure that the access is always in bounds, but introduces
+a maximum range for the out-of-bounds violation. In
+the second strategy, WebKit uses a pseudo-random poison
+value to protect pointers from misuse. Using this approach,
+an attacker would first have to learn the poison value before
+he can use it. The more significant impact of this approach
+is that mispredictions on the branch instruction used for type
+checks results in the wrong type being used for the pointer.
+Google proposes another defense for Google Chrome
+called site isolation [81]. Site isolation executes each site in
+its own process and therefore limits the amount of data that is
+exposed to side-channel attacks. Even in the case where the
+attacker has arbitrary memory reads, he can only read data
+from its own process. With Chrome 67, Google has enabled
+site isolation by default [81].
+Kiriansky and Waldspurger [48] propose to restrict access
+to sensitive data by using protection keys like Intel Memory
+Protection Key (MPK) technology [32]. They note that by
+using Spectre-PHT an attacker can first disable the protection
+before reading the data. To prevent this, they propose to
+include a lfence instruction in wrpkru, an instruction used
+to modify protection keys.

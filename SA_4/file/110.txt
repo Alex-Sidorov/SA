@@ -1,0 +1,27 @@
+Data compression is a form of data encryption, which is the act of taking a piece of
+data and making it unreadable to people who don’t know how to decode it.
+Data encryption is a vast subject, and it is of some importance here. If you were to
+compress a text file using Huffman compression and then look at the resulting
+data, would you be able to tell that it was text at one time? Probably not.
+One of the most frequent questions I hear from programmers is, “How do I make
+my graphics and sound so that no one can read it or modify it?” You would normally
+use a form of data encryption, but you could also use compression. The average
+person will not know how to decode your Huffman-encoded graphics. This is
+one easy way to prevent people from ripping your graphics and sound from your
+game and using them all over the place.
+Further Topics in
+Compression
+This chapter only gives you a very brief glimpse into the world of compression.
+There are tons of methods out there to compress data.
+One of the most exciting areas of compression is called fractal compression. A fractal
+is a geometrical object that exhibits repeating and recurring features. For example,
+if you look at a mountain and then zoom in to a small piece of it, it will look like a
+smaller mountain. You can zoom in many times, and still see repeating patterns.
+This type of thing happens all over the place in nature, such as coastlines, forests,
+flowers, and so on. This type of compression tries to find repeating areas of graphics
+or data and stores information on that.
+Other forms of compression also exist. Another famous method is called wavelet
+compression, which is used a great deal in signal processing because it is a good
+method of compressing waveform data. I haven’t done much research in the field,
+so I can’t say more about it.
+Just be aware that the field of data compression is absolutely huge.

@@ -1,0 +1,67 @@
+C1: Mitigating or reducing accuracy of covert channels.
+Transient execution attacks use a covert channel to transfer
+the microarchitectural state change induced by the transient
+instruction sequence such that it can be observed on an architectural
+level. One approach in mitigating Spectre-type
+attacks is to reduce the accuracy of said covert channels or
+prevent them in the first place.
+Hardware. One substantial enabler of transient execution
+attacks is that the transient execution sequence introduces
+a microarchitectural state change which is observed
+by the receiving end of the covert channel. In order to secure
+processors, SafeSpec [45] introduces shadow hardware
+structures that are used during the execution of transient instructions.
+Thereby, any microarchitectural state change can
+be squashed if the prediction of the processor was incorrect.
+While their prototype implementation protects only
+caches and, in extension, the TLB, other channels, e.g., using
+DRAM buffers [68], or execution unit congestion [56, 2],
+remain open.
+Yan et al. [88] proposed InvisiSpec, a method designed
+to make transient loads invisible in the cache hierarchy. By
+using a speculative buffer, all transiently executed loads are
+stored in this buffer instead of the cache. Similar to Safe-
+Spec, the buffer is invalidated if the prediction was incorrect.
+However, if the prediction was correct, the content of
+the buffer is loaded into the actual cache. In order to deal
+with memory consistency, InvisiSpec needs to compare the
+loaded value during this process with the most recent, up-todate
+value from the cache. If a mismatch occurs, the transient
+load and all successive instructions are reverted. Since
+SafeSpec only protects the caching hierarchy of the CPU, an
+attacker can still exploit other covert channels.
+Kiriansky et al. [47] propose a method to securely partition
+the cache across its ways. By introducing protection
+domains that isolate on a cache hit, cache miss and metadata
+level, cache-based covert channels are mitigated. This
+does not only require changes to the cache and adaptions to
+the coherence protocol but also enforces the correct management
+of these domains in software.
+Kocher et al. [50] proposed to limit data from entering
+covert channels through a variation of taint tracking. The
+idea is that the processor tracks data loaded during transient
+execution and prevents it from being used in subsequent operations
+which might leak it.
+Software. Many covert channels require an accurate timer
+in order to distinguish microarchitectural states, e.g., measuring
+the memory access latency to distinguish between a
+cache hit and cache miss. If the accuracy of timers is reduced
+such that an attacker can not differentiate between the microarchitectural
+stages any longer, the receiver of the covert
+channel cannot deduce the sent information. In order to mitigate
+browser-based attacks, many web browsers reduced the
+accuracy of timers in JavaScript by adding jitter [62, 69, 80,
+85]. However, Schwarz et al. [72] demonstrated that timers
+can be constructed in many different ways and, thus, further
+mitigations are required [70]. While Chrome initially disabled
+SharedArrayBuffers in response to Meltdown and
+Spectre [80], this timer source has been re-enabled with the
+introduction of site-isolation [75].
+NetSpectre requires different strategies due to its remote
+nature. To mitigate the attack, Schwarz et al. [73] propose
+using DDoS detection mechanisms as the attacker has to
+send multiple thousands of identical packets to the victim.
+The second method they propose is to add artificial noise to
+the network latency. This increases the number of measurements
+an attacker has to perform to extract a single bit. At
+some point, the attack becomes infeasible in practice.

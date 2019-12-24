@@ -1,0 +1,26 @@
+Tables are one of the most used type of testing artifact. To set up tables for your testing
+effort, you might find that it is best to take some time at the start of your project to create
+table templates. To create table templates, you can review your test plans and derive
+from them the types of tables you will need. Experienced testers often develop an extensive
+set of table types that address specific testing needs. In her book Introducing Software
+Testing, Louise Tamres provides an extensive review of tables she has developed. (The
+complete reference appears at the end of this chapter.) Among the tables that Tamres discusses
+are the following:
+Decision. A decision table allows you to organize information along the lines typical
+of logical tables. Such tables are useful when you have multiple conditions that
+correspond to multiple actions.
+Keystroke/mouse action. This table tracks keystrokes or mouse actions against
+fields and buttons. Among other tasks, this table provides a convenient way to
+track the minute test cases that are involved in testing user interfaces.
+Test procedure summary. This table enables you to coordinate test procedures
+when you have a set of test procedures that consist of many test cases or when you
+have test cases that involve procedures or a set of subordinate test cases.
+Boundary condition tables. This table provides a way to ensure that you cover the
+relatively few values you apply to a test scenario involving boundary conditions.
+Cross reference. This can be a general utility table for tracking test procedures and
+test cases. For example, suppose that you face a set of dependent operations. You
+might use one dialog box in the GUI to enter values and then, later, access another
+dialog box to retrieve the values. You might find it necessary to cross reference the
+results of the two sets of interactions.Test management. Test management involves tracking the performance of tests
+and the results. You might want to create a table that summarizes the results of
+dozens of test procedures.

@@ -1,0 +1,93 @@
+Spectre Defenses. We evaluate all defenses based on their
+capabilities of mitigating Spectre attacks. Defenses that require
+hardware modifications are only evaluated theoretically.
+In addition, we discuss which vendors have CPUs vulnerable
+to what type of Spectre- and Meltdown-type attack.
+InvisiSpec, SafeSpec, and DAWG are similar in how they
+approach the problem. Unfortunately, they only consider a
+cache-based covert channel. An attacker can easily substitute
+the covert channel and once again leak data through it.
+Based on that, we do not consider these three techniques as
+a reliable defense. DAWG has the additional problem that it
+does not mitigate an attack like NetSpectre, simply because
+the leak and transmit gadget are in the same domain.
+WebKit’s poison value prevents Spectre-PHT-based attacks
+as during speculation the type is confused, making the
+secret inaccessible. Index masking is only a partial solution;
+it only limits how far beyond the bound an access is possible.
+Site isolation still allows data leakage within the same
+process and is therefore not a full solution. With SLH, we
+were not able to observe any leakage, indicating that it successfully
+prevents Spectre-PHT-based attacks. This does not
+hold for YSNB as we were still able to observe leakage after
+introducing a data dependency.
+IBRS, STIBP, and IBPB are heavily dependant on the
+underlying architecture and the used Linux version. As
+of Linux 4.19, systems supporting enhanced IBRS use this
+method instead of retpoline. If it is not available, the kernel
+is protected by retpoline if compiled correspondingly. IBRS
+is only activated for firmware calls as retpoline has a lower
+performance impact and the kernel does not contain any indirect
+branches. The IBPB support on Linux seems to be
+incomplete as the BTB is not flushed if a process is set to
+be dumpable. As the default behavior on Linux is to mark
+a process as dumpable, all processes that do not explicitly
+change that are still vulnerable to a Spectre-BTB attack. We
+were not able to verify IBPB, IBRS, and STIBP on AMD as
+our test machine does not support them.
+Also, on current systems, STIBP is not enabled. There is
+a patch enabling it if three conditions are met [53]: The CPU
+has to be vulnerable to Spectre-BTB; hyperthreading must
+be supported and a sibling be online; and auto-selection of
+Spectre-BTB defenses must be enabled, i.e., the default case.
+We verified whether a cross-address-space Spectre-BTB attack
+still works on a patched Linux system and did not observe
+any leakage, indicating that STIBP seems to work on
+Intel. In our tests, RSB stuffing only proved to be a reasonable
+approach against Spectre-RSB from different processes.
+Otherwise, we are able to circumvent it.
+To use SSBD in user space, the process to be protected
+must issue a prctl system call to enable it. If the kernel has
+been compiled with CONFIG SECCOMP=y, then SSBD is enabled
+for all processes using seccomp. Our tests showed that
+SSBD is a functional defense for Spectre-STL. We searched
+projects on GitHub to verify if any use SSBD via prctl. We
+found no project using this method except forks of Linux
+kernels. As the number of projects supporting seccomp is
+small, we conclude that SSBD is not commonly used. On
+ARM, we verfied that SSBB works but it has to be explicitly
+added by the developer.
+In our experiments, we were not able to observe any leakage
+after a bounds check in the presence of a serializing
+instruction on Intel or AMD. For ARM, we were also not
+able to observe any leakage following a barrier instruction
+(CSDB) in combination with conditional selects or moves, but
+on some ARM implementations, we were able to leak data
+from a single memory access through the TLB after the DSB
+SY+ISH instructions. As a result, the static analysis approach
+of Microsoft and others is only a valid defense technique on
+ARM if a CSDB in combination with conditional selects or
+moves is emitted. As the observed leakage is only caused
+by one access and the common Spectre-PHT sequence consists
+of two loads, DSB SY+ISH still works in most cases. On
+AMD, lfence is not serializing by default. Instead, an MSR
+has to be set for the instruction to serialize [4].
+Taint tracking [50] theoretically mitigates all forms of
+Spectre-type attacks as data that has been tainted cannot be
+used in a transient execution. Therefore, the data does not
+enter a covert channel and can subsequently not be leaked.
+Reducing the accuracy of timers [50] is only a partial solution
+as Schwarz et al. [72] have shown that different methods
+can be used to generate a new, accurate timer. Additionally,
+it only makes it harder for an attacker to get the information,
+but that can be circumvented by taking more measurements.
+While the Sloth [48] family of defenses was initially proposed
+to mitigate Spectre-PHT attacks, we argue that they
+should also be able to theoretically mitigate Spectre-STL.
+Meltdown Defenses. We verified whether we can still
+execute our newly discovered Meltdown-type attacks on a
+fully-patched system. Even with all mitigations enabled, we
+were still able to execute Meltdown-BR, Meltdown-PK, and
+Meltdown-RW. These results indicate that current mitigations
+only prevent Meltdown-type attacks that do not cross
+the current privilege level.

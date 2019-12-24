@@ -1,0 +1,32 @@
+We systematically studied transient execution leakage for
+other, not yet tested exceptions. Following Intel’s [32] classification
+of exceptions as faults, traps, or aborts, we observed
+that all known Meltdown variants so far have exploited
+faults, but not traps or aborts. We consistently found
+no traces of transient execution beyond traps or aborts, which
+leads us to the hypothesis that Meltdown is only possible
+with faults (as they can occur at any moment during instruction
+execution). Table 5 and Figure 1 summarize experimental
+results for fault types tested on Intel, ARM, and AMD.
+Division Errors. For the divide-by-zero experiment, we
+leveraged the unsigned division instruction (idiv on x86 and
+sdiv on ARM). On the ARMs we tested, there is no exception,
+but the division yields merely zero. On x86, the division
+raises a divide exception (#DE). Both on the AMD and Intel
+we tested, the CPU continues with the transient execution after
+the exception. In both cases, the result register is set to
+‘0’, which is the same result as on the tested ARM. Thus,
+Meltdown-DE is not possible, as no real values are leaked.
+Supervisor Access. Although supervisor mode access prevention
+(SMAP) raises a page fault (#PF) when accessing
+user-space memory from the kernel, it seems to be free of
+any Meltdown effect. Thus, Meltdown-SM is not possible.
+Alignment Faults. Upon detecting an unaligned memory
+operand, the processor can (optionally) generate an alignment
+check exception (#AC). We found that the results of
+unaligned memory accesses never reach the transient execution.
+We suspect that this is because #AC is generated earlyon
+(even before the operand’s virtual address is translated to
+a physical one). Thus, Meltdown-AC is not possible.
+Segmentation Faults. We consistently found that out-oflimit
+segment accesses never reach the transient execution.

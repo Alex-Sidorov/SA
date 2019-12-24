@@ -1,0 +1,34 @@
+Working Metaphors
+The spiral has long been used as a way to illustrate one version of how software engineering
+happens. At the same time, it can be used to illustrate a path to professional growth if
+you are a software engineer involved in game development. The spiral serves so well to
+illustrate processes of growth because it provides a rich visual metaphor for how people
+often negotiate the stress that change presents. Divided into quadrants, the spiral illustrates
+two things. The spiral itself illustrates iteration—repeated, gradually more encompassing
+revisions of a product. The quadrants illustrate incremental development, which
+involves planning iterations after evaluating the risks that each iterative effort poses.
+When you view the development process as iterative and incremental, you place yourself
+in a position to select goals that you are most likely to achieve.When you plan iterations
+as incremental parts of a whole, you are in a much better position than otherwise to anticipate
+complexity and take measures to ensure that it does not become overwhelming.
+As odd as it might sound, developing your own career in an incremental and iterative
+fashion makes a great deal of sense. In an industry in which products are often produced
+one after another and schedules tend to be characterized by long hours that often make it
+nearly impossible to learn new things, it is important to structure change so that it is continuous
+and yet not so demanding as to be counterproductive. To improve your knowledge
+of new technology, for instance, you might have to attend a conference or acquire
+and explore a new class library. If your company pays the costs, all the better. But it might
+be that you will have to attend to these costs on your own.
+Incremental development implies that you put some things aside. Time allows only so
+much effort. You must select what is most important. Iteration implies that you do something
+over and over again. Leaning is just this type of activity. You do it over and over
+again, but you change and expand the areas you seek to know. Some areas are transient.
+Others endure for decades. Whether an area of interest persists, grows, or diminishes
+depends on what you view as important.
+To perform an activity incrementally implies that rather than doing something from start
+to finish in a grand way, you start out in a careful way, take time to determine what you
+can and cannot do, plan your activity, and then execute your plan. What you determine
+you want to learn can be drawn from your work experiences in light of what you know
+about the core areas of knowledge that define your field. What you put aside can be
+regarded as material that is tentatively scheduled for future learning. Figure 19.14 illustrates
+the basic cycle of decisions.

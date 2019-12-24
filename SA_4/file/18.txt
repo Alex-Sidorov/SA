@@ -1,0 +1,32 @@
+Release
+A release is a separately installed, complete product. It is what is shipped to the customer.
+With each new release, you should reset the release number so that it’s the only field that
+has a value greater than zero. In other words, you should set version, update, and test fields
+within the release number (if you use the type of numbering that this chapter discusses)
+to zero. The first release of a product according to the template given in Figure 17.8 would
+be 01.00.00.000.
+A release should represent a completely new build and integration of the product.
+Achieving this goal involves removing all old files from the build environment and replacing
+them with the files that you have slated for inclusion in the new release. Even if you
+have no prior releases, you must confirm that you are not including files that you have not
+scheduled formally for inclusion in the release build. In the team’s work with Ankh, examples
+of problems resulting from neglect of such activities included failed builds due to
+outdated Boost files and deterioration of performance due to sloppiness in the use of the
+debug version of DirectX. A clean build area would have eliminated these problems.
+Version
+Probably one of the best uses of the version number is to designate when you create a
+baseline of the product during the development phase. Configuration managers sometimes
+call a baseline a snapshot of the product during its development history. Effectively
+capturing a snapshot requires ensuring that it includes all files that compose the product.
+To facilitate the documentation of this activity, the Ankh Software Design Specification
+provides a section that documents the components of the game using UML package and
+component diagrams. Likewise, the Ankh Software Configuration Management Plan provides
+similar diagrams, along with a directory specification and a build schedule, to trace
+versions during the development process.
+Version numbers in the numbering system presented here follow the first dot (or period).
+Figure 17.9 illustrates how you can trace the builds representing the stripes in the design
+of Ankh using version numbers. Each successive version shows that you have added the
+functionality of a given stripe. Stored in this way, the mapping is not as direct as it might
+have been had the development team numbered all stripes with whole numbers, but it is
+still clear that each version of the game software created during the prerelease phase
+included an additional stripe of functionality.

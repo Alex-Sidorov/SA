@@ -1,0 +1,34 @@
+Allocating a Dynamic Array
+There are three different ways you can allocate memory for a dynamic array:
+malloc, calloc, and new.
+Malloc
+To use malloc, you must tell it how many bytes you want it to allocate. If you know
+the size of the datatype you want to create, multiply that by the number of cells you
+want in the array. However, most of the time you don’t know the size of the structure
+(or it is a pain in the butt to figure it out manually), so you should let the
+compiler figure it out for you. To do this, you must use the sizeof operator multiplied
+by the number of cells you want in the array. Malloc then returns a void
+pointer to the memory that it has just allocated on the heap.
+array = (int*)malloc( sizeof(int) * 10 );
+Look at the parameter of malloc first. You retrieve the size of an integer (which is
+usually four bytes, but some compilers use different-sized integers) and multiply
+that by 10. This should give you enough space for an array that will contain ten
+integers. Now, look in front of the malloc call; you see the int keyword followed by
+a pointer symbol, all within parentheses. This part is only needed if you are using
+C++. Remember, malloc returns a void pointer, which means that it has no type. C
+was lax and allowed you to implicitly cast the pointer into an integer pointer, but C++ doesn’t allow you to do that.
+Implicit conversion means that it will
+automatically convert the void pointer
+that malloc returns into an int pointer.
+C++ will complain about the line without
+that conversion.
+Now, if everything goes as planned,
+array should now point to a valid array.
+There is a chance that array doesn’t
+point to a new array, however. It might
+still be 0. If the amount of memory
+you ask for is not available, malloc
+returns 0.
+Now that you have your array, you can
+use it exactly like you used the static
+array.

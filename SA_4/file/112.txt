@@ -1,0 +1,22 @@
+Team Formation
+The assumption here is that you will eventually find yourself working for an established
+game development organization. In this world, a game development effort begins with
+several things that do not involve programming. Among these are contracts, a game
+design document, and a corporate production plan. Rights must be secured, funding must
+be approved, and a corporate production schedule must be created. After all this activity
+has been completed, a project manager or team lead is chosen for the programming effort.
+The project manger’s first job, usually, is to assess how much effort development of the
+software that supports the game will require and how many people will be needed to complete
+the project on time.
+Although no formula covers all situations, if you find yourself in the project management
+position, you will probably conclude that you require a team who is capable of performing
+a few basic types of activity:
+Plan and manage the development effort.
+Know the answers to difficult technical questions.
+Answer questions about how the game has been designed and what goals its functionality
+should support.
+Perform secondary or specialized programming tasks that require a high investment
+of time.
+Create documentation for the project.
+Perform or coordinate work that involves game assets, such as sound and graphics.
+Work on tools that can support various development activities.

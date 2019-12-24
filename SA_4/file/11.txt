@@ -1,0 +1,29 @@
+﻿Practices of Refactoring
+
+Refactoring involves changing code so that it iS easier to maintain. As Fowler and others who
+have written extensively on refactoring contend, no definitive set of principles can be said to
+determine when you should refactor. One term that appears often in the literature is “smell.”
+If you come across a segment of code that you find falls under the metaphor of “smelling
+bad,” it is probably time for refactoring. Although this chapter later provides a detailed representation
+of the items that Fowler lists, consider the following situations for starters:
+Classes, operations, or parts of operations might be difficult to understand. You
+have programmed to solve a problem, and solving the problem, rather than preparing
+the program for future changes or readability, has been your central
+preoccupation. Now that the primary problem has been solved, you can look
+again at the code and change it so that the solution you have implemented can
+be understood more easily.
+You have written a program that contains duplicated logic. In this case, you
+might have found it easy to do something several times rather than making use of
+single operations or classes that encapsulate the logic in a clear, precise way.
+You are examining code that you wrote in the past and find it difficult to know
+how and where to add additional functionality. You wrote a program that implements
+its logic correctly, but now you must add functionality to it. Before you
+begin adding more functionality, you can benefit by taking time to simplify the
+code to make it easier to work with.
+You have been given a body of code and are expected to understand it. You find
+the code you are working with complex and difficult to understand, and you do
+not know how to test it. By refactoring the code, you can prepare the way for much
+more efficient programming in the future.
+As this list indicates, no specific objective needs to mark the beginning of a refactoring
+effort. The main emphasis is that as you move forward in a development project, you can
+use refactoring to continuously simplify and clarify your code.

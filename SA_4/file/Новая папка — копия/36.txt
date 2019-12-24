@@ -1,0 +1,45 @@
+Foreshadow. Van Bulck et al. [84] presented Foreshadow, a
+Meltdown-type attack targeting Intel SGX technology [41].
+Unauthorized accesses to enclave memory usually do not
+raise a #PF exception but are instead silently replaced with
+abort page dummy values (cf. Section 5.2). In the absence of
+a fault, there is no unauthorized transient computation, and
+plain Meltdown cannot be mounted against SGX enclaves.
+To overcome this limitation, a Foreshadow attacker clears
+the “present” bit in the page-table entry mapping the enclave
+secret, ensuring that a #PF will be raised upon subsequent
+adversarial accesses to the unmapped enclave page. Analogous
+to the original Meltdown-US attack, the adversary now
+proceeds with a transient instruction sequence to encode and
+recover the secret (e.g., via a Flush+Reload covert channel).
+Intel [36] named L1 Terminal Fault (L1TF) as the root
+cause behind Foreshadow. A terminal fault occurs when accessing
+a page-table entry with either the present bit cleared
+or a “reserved” bit set. However, due to the tight connection
+of the L1 cache and address translation in modern microarchitectures,
+the physical address bits (i.e., frame number)
+of a page-table entry suffering a terminal fault may still
+be passed on to the L1 cache. Hence, any access to a physical
+address that hits the L1 cache is passed on to the transient
+execution, regardless of access permissions. The original
+Foreshadow [84] attack also shows how to recover uncached
+enclave secrets by first abusing secure page swapping
+to prefetch arbitrary enclave pages into the L1 cache.
+Foreshadow-NG. Foreshadow-NG [86] generalizes Foreshadow
+from the attack on SGX enclaves to bypass operating
+system of hypervisor isolation. The generalization builds on
+the observation that the physical frame number in a pagetable
+entry is sometimes under direct or indirect control of
+an adversary. For instance, when swapping pages to disk,
+the kernel is free to use all but the present bit to store metadata
+(e.g., the offset on the swap partition). However, if this
+offset is a valid physical address, any cached memory at that
+location leaks to an unprivileged Foreshadow-OS attacker.
+Even worse is the Foreshadow-VMM variant, which allows
+an untrusted virtual machine to extract the host machine’s
+entire L1 data cache (including data belonging to the
+hypervisor or other virtual machines). The underlying problem
+is that a terminal fault in the guest page-tables early-outs
+the address translation process, such that guest-physical addresses
+are erroneously passed to the L1 data cache, without
+first being translated into a proper host physical address [36].

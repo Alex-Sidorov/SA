@@ -1,0 +1,73 @@
+In this section, we provide an overview of all known variants
+of Spectre (cf. Figure 1). Spectre-type attacks exploit transient
+execution after a prediction or data dependency. We
+propose a categorization based on, first, the prediction mechanism
+exploited, and second, the mistraining mechanism.
+Systematization of Spectre Variants. Table 1 shows all
+known Spectre-type attacks and the element they exploit.
+Branch prediction is a fundamental building block of several
+attacks. Modern processors have many different mechanisms
+for different types of branches. Intel [33] provides
+prediction mechanisms for all of them, distributed among
+different processor components, e.g., the Branch History
+Buffer (BHB) [11], the Branch Target Buffer (BTB) [54, 18],
+the Pattern History Table (PHT) [20], and the Return Stack
+Buffer (RSB) [20]. The corresponding microarchitectural elements
+are not shared among physical cores [21], but some
+are shared across logical cores [60]. We propose to combine
+all attacks that exploit the same microarchitectural element:
+• Spectre-PHT: Variant 1 [50] and Variant 1.1 [48] both exploit
+the Pattern History Table (PHT)
+• Spectre-BTB: Variant 2 [50] exploits the Branch Target
+Buffer (BTB)
+• Spectre-STL: Variant 4 [29] exploits the CPUs memory
+disambiguation prediction, specifically store-to-load forwarding
+(STLF)
+• Spectre-RSB: ret2spec [60] and Spectre-RSB [52] both
+primarily exploit the Return Stack Buffer (RSB)
+NetSpectre [73], SGXSpectre [64], and SGXPectre [13], focus
+on the exploitation scenario of one or more of these
+variants, i.e., they apply Spectre variants in specific attacks.
+Hence, they are not part of the classification of the variants.
+Systematization of Mistraining Strategies. In current literature,
+several strategies for mistraining branch prediction
+for Spectre-type attacks have been overlooked. While they
+are not new variants of Spectre, they complete the field of
+Spectre-type attacks as they allow an attacker to mistrain
+branch prediction in previously unknown ways. These unknown
+ways are shown along the known ones in Figure 3.
+There are 4 possibilities to mistrain the branch predictor:
+1. within the same address space and the same branch location
+that is later on exploited (same-address-space inplace
+mistraining)
+in place/
+same address
+space
+out of place/
+same address
+space
+Victim
+Spectre-vulnerable
+branch
+Aliased
+branch
+Address
+collision
+in place/
+cross address
+space
+out of place/
+cross address
+space
+Attacker
+Same address
+Aliased
+address
+Address
+collision
+Shared Branch Prediction State
+Figure 3: The 4 different ways for prediction mistraining:
+Either in the same process (same-address-space) or a different
+attacker-controlled process (cross-address-space). For
+both variants, mistraining is done with using the vulnerable
+branch (in-place), or a congruent address (out-of-place).

@@ -1,0 +1,24 @@
+Beta
+When you create a beta release of a product, you create something you are willing to ship
+to customers. The functionality of the product is complete.You are looking for a thorough
+testing effort on the part of the product users. The beta release allows you to subject the
+product to a thorough test cycle that involves actual users or customers rather than professional
+testers.
+Before you ship the release version to the customer, you usually have the customer sign an
+agreement. The agreement protects you from liabilities that the product might present. It
+also establishes ground rules, such as how long the beta test will go on, how defects will
+be handled, and whether you are liable for damages that the user might suffer because of
+using the software. In the world of computer games, such an agreement might seem
+unnecessary, but it is still important to pay attention to liabilities and limitations. An
+example of a liability might be that an online user of your game creates a character profile,
+investing many hours, only to discover that with the first release, the character profile
+is no longer valid. If this player is not warned beforehand about the loss of data, he is likely
+to be extremely dissatisfied with your game.
+An example of a limitation is that you must tell those who install the beta release that after
+a certain time, you will no longer support the beta release. Although in some situations it
+might be reasonable to try to support a beta release even after the first production release,
+in most cases, such a move is absurd. After all, the first release should contain all the fixes
+to the product that were issued during the beta test.
+You also extend or establish an issue tracking system that enables the customer to report
+all use issues.Not having such a system in place at the start of the beta trial wastes the time
+and energy of everyone involved.

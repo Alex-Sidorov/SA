@@ -1,0 +1,133 @@
+C2: Mitigating or aborting speculation if data is potentially
+accessible during transient execution.
+Since all Spectre-type attacks exploit different prediction
+mechanisms used for speculative execution, an effective
+approach would be to disable speculative execution entirely
+[50, 79]. As the loss of performance for commodity
+computers and servers would be too drastic, another proposal
+is to disable speculation only while processing secret data.
+Software. Intel and AMD proposed to use serializing instructions
+like lfence on both outcomes of a branch [1, 37].
+ARM introduced a full data synchronization barrier (DSB
+SY) and an instruction synchronization barrier (ISB) that can
+be used to prevent speculation [6]. Unfortunately, serializing
+every branch would amount to completely disabling branch
+prediction, severely reducing performance [37]. Hence, Intel
+further proposed to use static analysis [37] to minimize
+the number of serializing instructions introduced. Microsoft
+uses the static analyzer of their C Compiler MSVC [67] to
+detect known-bad code patterns and insert lfence instructions
+automatically. Open Source Security Inc. [31] use a
+similar approach using static analysis. Kocher [49] showed
+that this approach misses many gadgets that can be exploited.
+Serializing instructions can also reduce the effect of indirect
+branch poisoning. By inserting it before the branch,
+the pipeline prior to it is cleared, and the branch is resolved
+quickly [1]. This, in turn, reduces the size of the speculation
+window in case that misspeculation occurs.
+While lfence instructions stop the speculative execution,
+Schwarz et al. [73] showed they do not stop speculative
+code fetches and other microarchitectural behaviors happening
+before execution. This includes powering up the AVX
+functional units, instruction cache fills, and iTLB fills which
+might still leak data.
+Evtyushkin et al. [19] propose a similar method to serializing
+instructions. They propose that a software developer
+can indicate branches capable of leaking sensitive information.
+When indicated, the processor should not predict the
+outcome of these branches. This also stops speculation.
+Additionally to the serializing instructions, ARM also introduced
+a new barrier (CSDB) that in combination with conditional
+selects or moves controls speculative execution [6].
+Speculative Load Hardening (SLH) is an approach used
+by LLVM and was proposed by Carruth [12]. Using this
+idea, loads are checked using branchless code to ensure that
+they are executing along a valid control flow path. To do
+this, they transform the code at the compiler level and introduce
+a data dependency on the condition. In the case of
+misspeculation, the pointer is zeroed out, preventing it from
+leaking data through speculative execution. One prerequisite
+for this approach is hardware that allows implementation of
+a branchless and unpredicted conditional update of a register’s
+value. As of now, the feature is only available in LLVM
+for x86 as the patch for ARM is still under review. GCC
+adopted the idea of SLH for their implementation, supporting
+both x86 and ARM. They provide a builtin function to
+either emit a speculation barrier or return a safe value if it
+determines that the instruction is transient [17].
+Oleksenko et al. [65] propose an approach similar to Carruth
+[12] called You Shall Not Bypass. They exploit that
+processors have a mechanism to detect data dependencies between
+instructions and introduce such a dependency on the
+comparison arguments. This ensures that the load only starts
+when the comparison is either in registers or the L1 cache,
+reducing the speculation window to a non-exploitable size.
+Google proposes a method called retpoline [82], a code
+sequence that replaces indirect branches with return instructions,
+to prevent branch poisoning. This method ensures
+that the return instruction predicts to a benign endless loop
+through the RSB to catch speculation. The actual target destination
+is pushed on the stack and returned to using the ret
+instruction. For retpoline, Intel [39] notes that in future processors
+that have Control-flow Enforcement Technology [34]
+(CET) capabilities to defend against ROP attacks, retpoline
+might trigger false positives in the CET defenses. To mitigate
+this possibility, future processors also implement hardware
+defenses for Spectre-BTB called enhanced IBRS [39].
+This eliminates the need for retpoline.
+To prevent the processor from speculating on the store
+buffer check, Intel provides a microcode update for disabling
+the mechanism called Speculative Store Bypass Disable
+(SSBD). AMD also supports SSBD [3]. ARM introduced
+a new barrier called SSBB that prevents a load following
+the barrier from bypassing a store using the same virtual
+address before it [6]. For upcoming CPUs, ARM introduced
+Speculative Store Bypass Safe (SSBS); a configuration control
+register to prevent the re-ordering of loads and stores [6].
+On Skylake and newer architectures, Intel [39] proposes
+RSB stuffing to prevent an RSB underfill and the ensuing
+fallback to the BTB. Hence, on every context switch into the
+kernel, the RSB is filled with the address of a benign gadget.
+This behavior is similar to retpoline. For Broadwell and
+older architectures, Intel [39] provided a microcode update
+to make the ret instruction predictable, enabling retpoline
+to be a robust defense against Spectre-BTB.
+Hardware. One of the building blocks for some variants
+of Spectre is branch poisoning where an attacker mistrains a
+prediction mechanism (see Section 3). In order to deal with
+mistraining, both Intel and AMD extended the instruction set
+architecture (ISA) with a mechanism for controlling indirect
+branches [4, 40]. The proposed addition to the ISA consists
+of three controls:
+• Indirect Branch Restricted Speculation (IBRS) prevents
+indirect branches executed in privileged code from being
+influenced by those in less privileged code. To enforce
+this, the processor enters the IBRS mode which cannot
+be influenced by any operations outside of it.
+• Single Thread Indirect Branch Prediction (STIBP) restricts
+sharing of branch prediction mechanisms among
+code executing across hyperthreads.
+• The Indirect Branch Predictor Barrier (IBPB) prevents
+code that executes before it from affecting the prediction
+of code following it by flushing the BTB.
+For existing ARM implementations, there are no generic
+mitigation techniques available. However, some processors
+implement specific controls that allow to invalidate
+the branch predictor which should be used during context
+switches [6]. On Linux, those mechanisms are enabled by
+default [46]. With the ARMv8.5-A instruction set [10],
+ARM introduces a new barrier (sb) to limit speculative execution
+on following instructions. Furthermore, new system
+registers allow to restrict speculative execution and new prediction
+control instructions prevent control flow predictions
+(cfp), data value prediction (dvp) or cache prefetch prediction
+(cpp) [10].
+To prevent Spectre-PHT attacks, Kiriansky and Waldspurger
+[48] propose SLoth, a group of three microarchitectural
+defenses, to constrain store-to-load forwarding. The
+first, SLoth Bear, prevents store-to-load forwarding from either
+transient stores or to transient loads through a microcode
+update. The second, SLoth, relies on the compiler marking
+instructions as candidates for forwarding. The third, Arctic
+SLoth, uses dynamic detection of load and store pairs to determine
+candidates for forwarding.

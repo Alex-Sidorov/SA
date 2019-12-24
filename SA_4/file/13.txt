@@ -1,0 +1,19 @@
+Science and Engineering
+Before there was software engineering, there was computer science. The first academic
+departments of computer science were established during the 1950s.Among these was the
+computer science department at the Massachusetts Institute of Technology. A few decades
+later, academic departments offering courses on software engineering began to emerge.
+One of the first widely recognized academic departments devoted to software engineering
+was established at Carnegie Mellon University. This department enjoyed great recognition
+because it became associated with the Software Engineering Institute (SEI). The SEI was
+one of the first organizations to promote industry-wide standards for the development
+of software.
+Although many computer scientists work as software engineers or software developers,
+software engineering differs from computer science. Software engineering tends to use
+established knowledge to solve specific, practical problems that usually have a fairly high
+degree of public visibility. Computer science concentrates on theoretical and mathematical
+questions that might receive little public attention. Research and exploration that are
+not focused on immediate applications characterize computer science as an academic discipline.
+Computer scientists work to extend the knowledge fostered by computer studies.
+Software engineers apply their knowledge to the creation of products that have fairly
+immediate utility.

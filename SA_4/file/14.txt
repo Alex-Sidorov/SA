@@ -1,0 +1,23 @@
+Another thing I must warn you about is Microsoft Visual C++ 6.0 ’s method of
+implementing templates. Templates are a relatively recent addition to the C++ standard,
+and Microsoft’s implementation of them is not exactly standard. There is one
+tiny problem with the way MSVC6 handles templates. (In fact, most compilers have
+the same flaw.)
+Normally, when programming a non-template class, you would separate the class
+header and the class implementation into two files: an .h file and a .cpp file. The
+function declarations and data declarations go in the header file, and the implementations
+of each of the functions go into a .cpp file.
+If you try programming a template class in this way, MSVC6 will give you errors. It
+has to do with the way template classes are implemented (see the next section).
+You’ll notice that in every implementation of a template class, I’ve defined the
+functions inline, within the header files. This is to get around the problem in
+MSVC6, which happens to be my main compiler.
+It took me a long time to figure this out, so hopefully I’m saving you a bit of trouble
+if you decide to do this on your own.
+This section is strictly optional and is intended for those of you who wonder how a
+template works. Remember when I said that the alternative to copying and pasting
+lots of code was to use a template? Well, that’s exactly how C++ implements a template.
+C++ goes through the template definition, copies the code, and replaces
+every instance of the parameterized type name with the actual type name. Figure
+2.10 shows how C++ basically takes one copy of the code and converts it into as
+many copies as are needed.

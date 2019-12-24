@@ -1,0 +1,93 @@
+Cache Covert Channels
+Modern CPUs use caches to hide memory latency. However,
+these latency differences can be exploited in side channels
+and covert channels [51, 66, 89, 26, 61]. In particular,
+Flush+Reload allows observations across cores at cacheline
+granularity, enabling attacks e.g., on cryptographic algorithms
+[89, 44, 27], user input [26, 55, 71], and kernel
+addressing information [23]. For Flush+Reload, the attacker
+continuously flushes data using the clflush instruction and
+reloads the data. If the victim used the cache line, accessing
+it will be fast; otherwise, it will be slow.
+Covert channels are a special use case of side-channel
+attacks, where the attacker controls both the sender and
+the receiver. This allows an attacker to bypass all restrictions
+that exist on the architectural level to leak information.
+Cache attack senders can be implemented in very little
+code [57, 61, 24], for instance via “tmp = array[secret_byte
+* 4096];”, i.e., a code pattern which also frequently occurs
+in real-world software. In this paper, we focus on transient
+execution attacks using covert channels for transmitting data
+from transient execution to a persistent architectural state.
+2.2 Difference between Spectre and Meltdown
+Before we discuss the details of Spectre-type and Meltdowntype
+attacks, we pinpoint the difference between them, as the
+first level of our classification tree (cf. Figure 1). “Speculative
+execution” is often falsely used as an umbrella term for
+attacks based on speculation of the outcome of a particular
+operation #n
+retire
+prediction
+retire
+operation #n+2
+retire
+predict CF
+architectural transient execution
+flush pipeline
+on wrong
+prediction
+time
+operation #n
+retire
+retire
+operation #n+2
+retire
+data dependency
+data Meltdown
+architectural transient execution
+exception raise
+time
+Figure 2: Spectre (left) exploits side effects of instructions
+predicted to execute next which only operate on architecturally
+accessible data. Meltdown (right) exploits that exceptions
+are enforced lazily (i.e., at retirement). In the transient
+execution window (highlighted area) between exception
+and retirement, the architecturally inaccessible results
+of the faulting instruction are not discarded but can be used.
+event (i.e., conditional branches, return addresses, or memory
+disambiguation), out-of-order execution, and pipelining.
+The confusion is reinforced as the same method for encoding
+and transferring secrets to the architectural domain (i.e.,
+a Flush+Reload covert channel) is used in many Meltdownand
+Spectre-type attacks. However, Spectre and Meltdown
+exploit fundamentally different properties of CPUs. A CPU
+can be vulnerable to Spectre but not Meltdown (e.g., AMD),
+and vice versa. The only common property of both attacks
+is that they exploit side effects within the transient execution
+domain, i.e., within never-committed execution. Hence, the
+more accurate term is transient execution [56, 50], accurately
+describing the common underlying effect.
+For Spectre, transient instructions only work with data
+which the application can access architecturally. Transiently
+executed instructions could also be executed in the normal
+control flow of the application, e.g., if the branch condition
+is different. Note that although Spectre-BTB can jump to an
+arbitrary location in the current address space, it still works
+with data which the application can access architecturally.
+For Meltdown, in contrast, the transient instructions work
+with data which are architecturally inaccessible for the application.
+In a typical control flow, the data is never accessible
+for the application. Thus, Meltdown exploits the property
+that transient instructions following a fault have access to
+the data of the faulting instruction.
+Figure 2 illustrates the difference between Meltdown and
+Spectre. The mere continuation of the transient execution
+after a fault itself is required, but not sufficient for Meltdown.
+Replacing the data of a faulting instruction with a dummy
+value (i.e., as it is done for Meltdown-US in AMD CPUs) is
+sufficient to mitigate Meltdown in hardware.
+While Meltdown-type attacks so far exploit out-of-order
+execution, in-order pipelines may allow similar attacks. As
+such, Meltdown-type attacks are a category separate from
+Spectre-type attacks. This becomes even more clear when
+discussing defenses against these attacks in Section 5.

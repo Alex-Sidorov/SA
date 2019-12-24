@@ -1,0 +1,25 @@
+page-table attribute to denote a virtual memory page as belonging
+to the operating system kernel. The original Meltdown
+attack [56] showed how to read kernel memory from
+user space on pipelined processors that do not transiently enforce
+the user/supervisor flag. The attack consists of 3 steps.
+In the first step, data inaccessible to the attacker is loaded
+into a register, which eventually causes a page fault. Before
+the fault becomes architecturally visible, however, the attacker
+executes a transient instruction sequence that accesses
+a cache line based on the privileged data in the register. In
+the final step, after the exception has been raised, the attacker
+uses Flush+Reload to determine which cache line was accessed
+and based on that recover the privileged data.
+Meltdown attackers can choose to either handle or suppress
+page faults resulting from the unauthorized access.
+Lipp et al. [56] showed how to improve the attack’s bandwidth
+by suppressing exceptions through transaction memory
+processor features such as Intel TSX [32]. By iterating
+byte-by-byte over the kernel space and suppressing or
+handling exceptions, an attacker can dump the entire kernel.
+This includes the entire physical memory if the operating
+system has a direct physical map in the kernel. While
+extraction rates are significantly higher when the kernel data
+resides in the CPU cache, Meltdown has even been shown to
+successfully extract uncached data from memory [56].

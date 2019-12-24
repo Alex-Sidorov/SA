@@ -1,0 +1,31 @@
+Individual Practices
+Configuration management issues relating to workspaces deserve attention. Generally, an
+individual developer who is part of a team works on one area of code while other team
+members work on other areas of code. Reviewing the assumptions and rules that define
+this activity can help promote practices that enable individuals and teams to work more
+effectively. The following list names a few issues that arise in this respect:
+Focus development on the primary line of code. Development activity that does
+not focus on the primary line of code creates a liability. Stories about schisms
+destroying projects illustrate the importance of focusing on the primary line of
+code. Problems usually arise when headstrong developers begin using different
+approaches to solving problems and develop redundant sets of functionality.
+Another situation arises when someone is brought in for a few days as a contractor.
+The contractor comes and goes, and the result is a component that functions
+perfectly when compiled on the contractor’s computer but, lacking integration, is
+so problem plagued that no one can make it work during the next integration.
+Use integration and baselines. The Ankh development team decided to use integrations
+and baselines implicitly to enforce configuration policies. The approach
+used stripes as occasions for bringing all the development activity into a comprehensive
+integration that had to be synchronized across the board. Using the project
+management schedule as a strategic guide and the configuration management plan
+as a kind of archeological map, you can re-create the development history of the
+game. Although the Ankh team effort possessed many distinctive (or eccentric)
+characteristics, the advisability of such incremental, iterative approaches to development
+is acknowledged almost universally.
+Merge on a frequent and shallow basis. The more changes you make between
+builds, the longer it’s going to take to resolve difficulties. Obviously, keeping files
+out for days on end is probably going to create problems. The policies you set are
+up to your team. One rule is that a work session should involve one task. Of
+course, tasks can be longer or shorter, but if you analyze your work, you can probably
+break down longer tasks into shorter ones if the tasks you initially encounter
+extend over several days or weeks.

@@ -1,0 +1,44 @@
+Transient Execution
+Out-of-Order Execution. On modern processors, individual
+instructions of a complex instruction set are first decoded
+and split-up into simpler micro-operations (mOPs) that are
+then processed. This design decision allows for superscalar
+optimizations and to extend or modify the implementation
+of certain instructions through so-called microcode updates.
+Furthermore, to increase performance, CPU’s usually implement
+a so-called out-of-order design. This allows the processor
+to execute mOPs not only in the sequential order provided
+by the instruction stream but to dispatch them in parallel,
+exhausting the CPUs execution units as much as possible
+and, thus, improving the overall performance. If the required
+operands of a mOP are available, and its corresponding execution
+unit is not busy, the processor starts its execution even
+if mOPs earlier in the instruction stream have not finished
+yet. As immediate results are only made visible on the architectural
+level if all previous mOPs have finished, CPUs
+typically keep track of the status of mOPs in a so-called Reorder
+Buffer (ROB). When mOPs finish their execution, they
+retire in-order, and their results are committed to the architectural
+state. Furthermore, exceptions and interrupts that
+occurred during the execution of the mOP are handled during
+the retirement. Therefore, it is possible that the CPU
+executed instructions whose results are never committed to
+the architectural state. These instructions are called transient
+instructions [56].
+linear but instead contains (conditional) branches or data
+dependencies between instructions. In theory, the processor
+would have to stall until a branch or dependencies are
+resolved before it can continue the execution. As stalling
+decreases the performances significantly, processors deploy
+various mechanisms to predict the outcome of a branch or a
+data dependency. Thus, processors continue executing along
+the predicted path, buffering the results again in the ROB
+until the correctness of the prediction is verified as its dependencies
+are resolved. In the case of a correct prediction,
+the processor can retire the precomputed results from the reorder
+buffer, increasing the overall performance. However,
+if the prediction was incorrect, the processor needs to squash
+the pre-computed results and perform a roll-back to the last
+correct state by flushing the pipeline and the ROB. Thus,
+the processor also executed transient instructions, which are
+never committed to the architectural state.

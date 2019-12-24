@@ -1,0 +1,50 @@
+Bypass on Loads. All Spectre-PHT attacks presented so
+far, are same-address-space in-place attacks. Kocher et al.
+[50] first introduced Spectre Variant 1, an attack that exploits
+a conditional branch misprediction to load data transiently.
+On Intel, the primary microarchitectural element exploited
+here is the Pattern History Table (PHT). Depending on predictor
+mode, it is accessed based on combination of some
+bits from branch instruction virtual address and shift registers
+[20, 19] which contain the information about the last N
+branches, with N depending on the architecture [20]. The
+PHT contains a biasing bit indicating whether a branch is
+mostly taken or not. A code line “if (x < len(array1)) {
+y = array2[array1[x] * 4096]; }”, can be “mistrained” supplying
+valid values of x so that the branch evaluates to true.
+The attacker can then supply a value for x that is out-ofbounds.
+The PHT then predicts that the branch evaluates to
+true and execution transiently follows along the mispredicted
+path. Following the branch, there is a code line acting as a
+covert channel, transmitting the value read from the out-ofbounds
+access.
+SGXSpectre [64] mounted this attack on SGX enclaves.
+Bypass on Stores. Kiriansky and Waldspurger [48] showed
+that transient writes are also possible by following the same
+principle. Using this technique, the attacker breaks both type
+and memory safety during transient execution. In an example
+code line “if (x < len(array)) { array[x] = value; }”,
+we can see that, in the case where the attacker controlled input
+x is valid, some value gets written to the array at offset
+x. Following the same approach and by manipulating the
+element as discussed in Section 3.1, the attacker transiently
+writes out-of-bounds. This creates a transient buffer overflow,
+allowing the attacker to execute arbitrary instruction
+sequences from the code already present within the victim
+domain, similar as in return-to-libc [76] and return-oriented
+programming (ROP) [74] attacks.
+NetSpectre (Remote Spectre Attack). With NetSpectre,
+Schwarz et al. [73] proposed a new method that does not
+rely on an attacker executing its own code on a victim machine.
+A NetSpectre attack combines two different gadgets,
+namely a leak and transmit gadget, into one called a Net-
+Spectre gadget. The leak gadget is responsible for accessing
+a bit stream at an index controlled by the attacker and based
+on that update the microarchitectural state. The transmit gadget
+then performs some operation exposing the microarchitectural
+state through a change in runtime, e.g., lower response
+time due to a cache hit. The attacker continuously
+mistrains the processor as in other previous Spectre-PHT attacks.
+However, as a remote attack, the attacker needs to
+extract the information using a remote cache covert channel
+instead of a simple Flush+Reload covert channel.
